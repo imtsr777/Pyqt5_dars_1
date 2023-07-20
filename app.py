@@ -6,7 +6,9 @@ from PyQt5.QtGui import QIcon
 import sys
 
 class MainWindow( QMainWindow ):
-
+    _counter = 0
+    _raise = True
+    _clicksCount = 0;
     def __init__(self):
         super().__init__()
 
@@ -46,9 +48,35 @@ class MainWindow( QMainWindow ):
 
 # "================================================================="
 
-        # self.btn1 = QPushButton(self)
-        # self.btn1.setText("Button")
-        # self.btn1.setText("Knopka")
+        self.btn1 = QPushButton(self)
+        self.btn1.setText("Button")
+        self.btn1.clicked.connect(self.buttonClicked)
+
+        self.labelNumber = QLabel("0",self)
+        self.labelNumber.move(40, 40)
+        self.labelNumber.setStyleSheet("font-size: 30px")
+
+        self.labelCount = QLabel("0",self)
+        self.labelCount.move(70, 40)
+        self.labelCount.setStyleSheet("font-size: 30px; color: red;")
+
+    def buttonClicked(self):
+        
+        self._clicksCount += 1
+        self.labelCount.setText(f"{self._clicksCount}")
+
+        if( self._raise ):
+            self._counter += 1
+        else:
+            self._counter -= 1
+
+        if( self._counter == 10 ):
+            self._raise = False
+        elif( self._counter == 0 ):
+            self._raise = True
+
+        self.labelNumber.setText(f"{self._counter}")
+
 
 
 app = QApplication([])
